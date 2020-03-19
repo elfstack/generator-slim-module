@@ -73,10 +73,8 @@ module.exports = class extends Generator {
     this.log('registering modules...')
     const data = fs.readFileSync('src/routes.php').toString().split("\n");
     const idx = data.findIndex(item => item === '// DO NOT DELETE THIS LINE')
-    this.log(idx)
     data.splice(idx, 0, `    '${this.toClassName(this.answers.name)}',`);
     const text = data.join("\n");
-    this.log(text)
     fs.writeFile('src/routes.php', text, function (err) {
       if (err) return this.log(err);
     });

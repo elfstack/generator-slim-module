@@ -5,10 +5,10 @@ use Illuminate\Database\Schema\Builder;
 
 class <%= module %>Migration
 {
-// DO NOT DELETE OR EDIT THIS LINE 
+// TABLEDEF, DO NOT DELETE
 }
 
 $app = require('../src/bootstrap/app.php');
 $schema = $app->getContainer()['db']->connection()->getSchemaBuilder();
 
-// DO NOT DELETE OR EDIT THIS LINE 
+// CALLMIGRATION, DO NOT DELETE
