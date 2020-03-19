@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Stanley Cao",
+      "authorEmail": "cao.stanley@protonmail.com",
+      "authorUrl": "https://stanleytsau.me"
+    }
+  }
+}
