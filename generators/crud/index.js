@@ -151,6 +151,9 @@ ${this._processMigrationFields(properties.fields)}
   _writingController(modelName, properties) {
     const moduleName = this.options.module
 
+    // TODO: check constraints
+    // TODO: check searchable, filterable, sortable
+
     this.fs.copyTpl(
       this.templatePath('src/Modules/Module/Apis/ModelController.php'),
       this.destinationPath(`src/Modules/${moduleName}/Apis/${modelName}Controller.php`),
