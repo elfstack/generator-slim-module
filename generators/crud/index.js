@@ -42,14 +42,18 @@ module.exports = class extends Generator {
     const moduleName = this.options.module
     const tableName = properties.tableName
 
+    const params = {
+      module: moduleName,
+      model: modelName,
+      tableName: tableName,
+      fillable: Object.entries(properties.fields).filter(([column, properties]) => properties.fillable).map(([column, properties]) => column),
+      hidden: Object.entries(properties.fields).filter(([column, properties]) => properties.hidden).map(([column, properties]) => column),
+    }
+
     this.fs.copyTpl(
       this.templatePath('src/Modules/Module/Models/Model.php'),
       this.destinationPath(`src/Modules/${moduleName}/Models/${modelName}.php`),
-      {
-        module: moduleName,
-        model: modelName,
-        tableName: tableName
-      }
+      params
     );
   }
 

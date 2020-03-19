@@ -7,14 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class <%= model %> extends Model
 {
 
-    public $table = '<%= tableName %>';
+    protected $table = '<%= tableName %>';
 
     protected $fillable = [
-        // TODO: fillable columns
+        <% fillable.forEach((column) => {%>'<%= column %>',
+        <% }) %>
     ];
 
     protected $hidden = [
-        // TODO: hidden columns
-    ]
+        <% hidden.forEach((column) => {%>'<%= column %>',
+        <% }) %>
+    ];
 
 }
