@@ -2,6 +2,7 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const fs = require('fs')
 
 module.exports = class extends Generator {
   async prompting() {
@@ -59,17 +60,16 @@ module.exports = class extends Generator {
       this.answers
     );
     this.fs.copy(
-      this.templatePath('src/Modules/Module/Apis'),
-      this.destinationPath(`src/Modules/${pathName}/Apis`),
+      this.templatePath('src/Modules/Module/Apis/.gitkeep'),
+      this.destinationPath(`src/Modules/${pathName}/Apis/.gitkeep`),
     );
     this.fs.copy(
-      this.templatePath('src/Modules/Module/Services'),
-      this.destinationPath(`src/Modules/${pathName}/Services`),
+      this.templatePath('src/Modules/Module/Services/.gitkeep'),
+      this.destinationPath(`src/Modules/${pathName}/Services/.gitkeep`),
     );
   }
 
   install() {
-    const fs = require('fs')
     this.log('registering modules...')
     const data = fs.readFileSync('src/routes.php').toString().split("\n");
     const idx = data.findIndex(item => item === '// DO NOT DELETE THIS LINE')
