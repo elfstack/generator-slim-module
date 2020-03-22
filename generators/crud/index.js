@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 const fs = require('fs');
 const yaml = require('yaml');
+const pluralize = require('pluralize');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -123,7 +124,6 @@ ${this._processMigrationFields(properties.fields)}
     data.splice(callIdx, 0, callTableTpl);
 
     const text = data.join("\n");
-    this.log(text)
     fs.writeFile(`database/${moduleName}.php`, text, function (err) {
       if (err) return this.log(err);
     });
@@ -186,7 +186,38 @@ ${this._processMigrationFields(properties.fields)}
     })
   }
 
+  _registerRoutes(modelName) {
+    const moduleName = this.options.module
+    modelName = modelName.toLowerCase()
+    const modelNamePl = pluralize(modelName)
+    const routeTpl = `
+        // routes for ${modelName}
+
+        $meta->group('/${modelName}', function (MetaInfo $meta) {
+            $meta->get('{id:[0-9]+}', ${modelName}Controller:retrieve);
+            $meta->put('{id:[0-9]+}', ${modelName}Controller:update);
+            $meta->delete('{id:[0-9]+}', ${modelName}Controller:delete);
+        });
+
+        $meta->get('/${modelNamePl}, ${modelName}Controller:listing');
+        $meta->post('/${modelNamePl}, ${modelName}Controller:create');
+    `
+    const data = fs.readFileSync(`src/Modules/${moduleName}/Meta.php`).toString().split("\n");
+    const defIdx = data.findIndex(item => item === '// REGISTER APIS HERE, DO NOT DELETE')
+    data.splice(defIdx, 0, routeTpl);
+
+    const text = data.join("\n");
+    this.log(text)
+    fs.writeFile(`src/Modules/${moduleName}/Meta.php`, text, function (err) {
+      if (err) return this.log(err);
+    });
+
+  }
+
   install() {
     // TODO: register routes
+    Object.entries(this.source).forEach(([modelName, properties]) => {
+      this._registerRoutes(modelName);
+    })
   }
 };

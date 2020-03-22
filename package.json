@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "chalk": "^2.1.0",
+    "pluralize": "^8.0.0",
     "yaml": "^1.8.2",
     "yeoman-generator": "^2.0.1",
     "yosay": "^2.0.1"
